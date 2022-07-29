@@ -1,4 +1,4 @@
-# pRedis [v1.0.8-STABLE]
+# pRedis [v1.0.8-UNSTABLE]
 
 ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white)
 ![GitHub](https://img.shields.io/github/languages/code-size/HyperSkys/pRedis?color=cyan&label=Size&labelColor=000000&logo=GitHub&style=for-the-badge)
@@ -6,6 +6,10 @@
 ![Discord](https://img.shields.io/discord/898154272636678196?color=5865F2&label=Discord&logo=Discord&labelColor=23272a&style=for-the-badge)
 
 **pRedis** is a universe Redis library for Java, which is open to the public.
+
+### Warning!
+
+This is not a stable build and should not be used for production nor should it be used for development, this has been released for people wanting to take the risk to use new features.
 
 ### Download Instructions
 
@@ -88,7 +92,7 @@ For maven please add these to your repositories and dependencies.
  <dependency>
     <groupId>com.github.HyperSkys</groupId>
     <artifactId>pRedis</artifactId>
-    <version>1.0.8-STABLE</version>
+    <version>1.0.8-UNSTABLE</version>
 </dependency>
 ```
 
@@ -100,7 +104,7 @@ For gradle add this to your repositories and dependencies.
 maven { url 'https://jitpack.io' }
 ```
 ```
-implementation 'com.github.HyperSkys:Configurator:1.0.8-STABLE'
+implementation 'com.github.HyperSkys:Configurator:1.0.8-UNSTABLE'
 ```
 
 ### Thanks
