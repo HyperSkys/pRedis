@@ -1,42 +1,60 @@
 package dev.hyperskys.predis.redis.events;
 
 import dev.hyperskys.predis.exceptions.AnnotatedClassException;
+import dev.hyperskys.predis.exceptions.PacketParseException;
+import dev.hyperskys.predis.redis.RedisDB;
 import dev.hyperskys.predis.redis.packets.RedisPacket;
 import dev.hyperskys.predis.redis.packets.annotations.Packet;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.reflections.Reflections;
-import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPubSub;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class RedisSubscriber {
-    public RedisSubscriber(Class<?> clazz, Jedis jedis) {
-         Reflections reflections = new Reflections(clazz.getPackage().getName());
-         ArrayList<RedisPacket> redisPackets = new ArrayList<>();
-         for (Class<?> clazz1 : reflections.getTypesAnnotatedWith(Packet.class)) {
-             try {
-                 redisPackets.add((RedisPacket) clazz1.newInstance());
-             } catch (InstantiationException | IllegalAccessException e) {
-                 throw new AnnotatedClassException("The class " + clazz1.getName() + " is annotated with @Packet, but does not extend RedisPacket.");
-             }
-         }
 
-        new Thread(() -> jedis.subscribe(new JedisPubSub() {
+    private static JedisPubSub jedisPubSub;
+
+    public RedisSubscriber(Class<?> clazz, RedisDB redisDB) {
+        Reflections reflections = new Reflections(clazz.getPackage().getName());
+        ArrayList<RedisPacket> redisPackets = new ArrayList<>();
+        for (Class<?> clazz1 : reflections.getTypesAnnotatedWith(Packet.class)) {
+            try {
+                redisPackets.add((RedisPacket) clazz1.newInstance());
+            } catch (InstantiationException | IllegalAccessException e) {
+                throw new AnnotatedClassException("The class " + clazz1.getName() + " is annotated with @Packet, but does not extend RedisPacket.");
+            }
+        }
+
+        jedisPubSub = new JedisPubSub() {
             @Override
             public void onMessage(String channel, String message) {
-                JSONTokener jsonTokener = new JSONTokener(message);
-                JSONObject jsonObject = new JSONObject(jsonTokener);
+                try {
+                    JSONTokener jsonTokener = new JSONTokener(message);
+                    JSONObject jsonObject = new JSONObject(jsonTokener);
 
-                for (RedisPacket redisPacket : redisPackets) {
-                    String typeOfPacket = redisPacket.getClass().getAnnotation(Packet.class).packetType();
-                    if (jsonObject.getString("type") != null && Objects.equals(jsonObject.getString("type"), typeOfPacket)) {
-                        redisPacket.onReceive(jsonObject.getJSONObject("data"));
+                    for (RedisPacket redisPacket : redisPackets) {
+                        String typeOfPacket = redisPacket.getClass().getAnnotation(Packet.class).packetType();
+                        if (jsonObject.getString("type") != null && Objects.equals(jsonObject.getString("type"), typeOfPacket)) {
+                            redisPacket.onReceive(jsonObject.getJSONObject("data"));
+                        }
                     }
+                } catch (Exception exception) {
+                    throw new PacketParseException("Failed to parse the packet to a json object: " + channel + ":" + message);
                 }
             }
-        }, "stream")).start();
+        };
+
+        new Thread(() -> redisDB.getListener().subscribe(jedisPubSub, "stream"), "JedisPubSub Thread").start();
+    }
+
+    public static void close() {
+        try {
+            if (jedisPubSub != null) {
+                jedisPubSub.unsubscribe();
+            }
+        } catch (Exception ignored) {}
     }
 }
