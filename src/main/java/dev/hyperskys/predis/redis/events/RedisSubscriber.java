@@ -16,10 +16,21 @@ import redis.clients.jedis.JedisPubSub;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * Class that is used to set up the Redis Subscriber.
+ */
 public class RedisSubscriber {
 
+    /**
+     * The Jedis Publish & Subscriber instance.
+     */
     private static JedisPubSub jedisPubSub;
 
+    /**
+     * This method is used to initialize the Jedis Publish & Subscriber system.
+     * @param clazz The class that is used in the main method.
+     * @param redisDB The RedisDB instance.
+     */
     public RedisSubscriber(Class<?> clazz, RedisDB redisDB) {
         Reflections reflections = new Reflections(clazz.getPackage().getName());
         ArrayList<RedisPacket> redisPackets = new ArrayList<>();
@@ -57,13 +68,5 @@ public class RedisSubscriber {
         };
 
         new Thread(() -> redisDB.getListener().subscribe(jedisPubSub, "stream"), "Redis Subscriber Thread").start();
-    }
-
-    public void close() {
-        try {
-            if (jedisPubSub != null) {
-                jedisPubSub.unsubscribe();
-            }
-        } catch (Exception ignored) {}
     }
 }
