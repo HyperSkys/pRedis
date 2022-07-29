@@ -1,13 +1,10 @@
 package dev.hyperskys.predis;
 
-import lombok.Getter;
-import lombok.Setter;
+import dev.hyperskys.predis.redis.events.RedisSubscriber;
+import redis.clients.jedis.Jedis;
 
 public class PRedis {
-
-    private static @Getter @Setter Class<?> mainClazz;
-
-    public static void init(Class<?> clazz) {
-        setMainClazz(clazz);
+    public static void init(Class<?> clazz, Jedis jedis) {
+        new RedisSubscriber(clazz, jedis);
     }
 }
