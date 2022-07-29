@@ -16,6 +16,16 @@ public class PacketBuilder {
         return this;
     }
 
+    public PacketBuilder addData(String key, Number number) {
+        dataObject.put(key, number);
+        return this;
+    }
+
+    public PacketBuilder addData(String key, boolean value) {
+        dataObject.put(key, value);
+        return this;
+    }
+
     public JSONObject build() {
         jsonObject.put("data", dataObject);
         return jsonObject;

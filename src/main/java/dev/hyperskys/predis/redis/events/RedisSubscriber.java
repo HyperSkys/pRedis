@@ -2,9 +2,11 @@ package dev.hyperskys.predis.redis.events;
 
 import dev.hyperskys.predis.exceptions.AnnotatedClassException;
 import dev.hyperskys.predis.exceptions.PacketParseException;
+import dev.hyperskys.predis.exceptions.UsedValueReturnNull;
 import dev.hyperskys.predis.redis.RedisDB;
 import dev.hyperskys.predis.redis.packets.RedisPacket;
 import dev.hyperskys.predis.redis.packets.annotations.Packet;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.reflections.Reflections;
@@ -41,8 +43,12 @@ public class RedisSubscriber {
                             redisPacket.onReceive(jsonObject.getJSONObject("data"));
                         }
                     }
-                } catch (Exception exception) {
+                } catch (JSONException exception) {
                     throw new PacketParseException("Failed to parse the packet to a json object: " + channel + ":" + message);
+                } catch (NullPointerException exception) {
+                    throw new UsedValueReturnNull("A value in a packet on " + channel + ":" + message + " was used, but a value returned null.");
+                } catch (Exception exception) {
+                    exception.printStackTrace();
                 }
             }
         };
@@ -50,7 +56,7 @@ public class RedisSubscriber {
         new Thread(() -> redisDB.getListener().subscribe(jedisPubSub, "stream"), "JedisPubSub Thread").start();
     }
 
-    public static void close() {
+    public void close() {
         try {
             if (jedisPubSub != null) {
                 jedisPubSub.unsubscribe();
