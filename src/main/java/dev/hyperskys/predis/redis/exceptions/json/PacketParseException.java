@@ -1,4 +1,4 @@
-package dev.hyperskys.predis.exceptions;
+package dev.hyperskys.predis.redis.exceptions.json;
 
 /**
  * Thrown when an error occurs while parsing a Redis packet.

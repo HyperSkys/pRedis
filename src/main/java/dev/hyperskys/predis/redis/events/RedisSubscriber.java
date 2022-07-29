@@ -1,9 +1,9 @@
 package dev.hyperskys.predis.redis.events;
 
-import dev.hyperskys.predis.exceptions.AnnotatedClassException;
-import dev.hyperskys.predis.exceptions.PacketParseException;
-import dev.hyperskys.predis.exceptions.ReflectionsException;
-import dev.hyperskys.predis.exceptions.UsedValueReturnNull;
+import dev.hyperskys.predis.redis.exceptions.reflections.AnnotatedClassException;
+import dev.hyperskys.predis.redis.exceptions.json.PacketParseException;
+import dev.hyperskys.predis.redis.exceptions.reflections.ReflectionsException;
+import dev.hyperskys.predis.redis.exceptions.json.UsedValueReturnNull;
 import dev.hyperskys.predis.redis.RedisDB;
 import dev.hyperskys.predis.redis.packets.RedisPacket;
 import dev.hyperskys.predis.redis.packets.annotations.Packet;
@@ -25,13 +25,20 @@ public class RedisSubscriber {
      * The Jedis Publish & Subscriber instance.
      */
     private static JedisPubSub jedisPubSub;
+    private static Class<?> clazz;
+    private static RedisDB redisDB;
 
     /**
-     * This method is used to initialize the Jedis Publish & Subscriber system.
+     * This method is used to instantiate the variables.
      * @param clazz The class that is used in the main method.
      * @param redisDB The RedisDB instance.
      */
     public RedisSubscriber(Class<?> clazz, RedisDB redisDB) {
+        RedisSubscriber.clazz = clazz;
+        RedisSubscriber.redisDB = redisDB;
+    }
+
+    public void init() {
         Reflections reflections = new Reflections(clazz.getPackage().getName());
         ArrayList<RedisPacket> redisPackets = new ArrayList<>();
         for (Class<?> clazz1 : reflections.getTypesAnnotatedWith(Packet.class)) {
@@ -52,7 +59,7 @@ public class RedisSubscriber {
                     JSONObject jsonObject = new JSONObject(jsonTokener);
 
                     for (RedisPacket redisPacket : redisPackets) {
-                        String typeOfPacket = redisPacket.getClass().getAnnotation(Packet.class).packetType();
+                        String typeOfPacket = redisPacket.getClass().getAnnotation(Packet.class).name();
                         if (jsonObject.getString("type") != null && Objects.equals(jsonObject.getString("type"), typeOfPacket)) {
                             redisPacket.onReceive(jsonObject.getJSONObject("data"));
                         }
@@ -67,6 +74,6 @@ public class RedisSubscriber {
             }
         };
 
-        new Thread(() -> redisDB.getListener().subscribe(jedisPubSub, "stream"), "Redis Subscriber Thread").start();
+        new Thread(() -> redisDB.getListenerClient().subscribe(jedisPubSub, "stream"), "Main Redis Thread").start();
     }
 }

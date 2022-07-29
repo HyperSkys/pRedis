@@ -1,4 +1,4 @@
-# pRedis [v1.0.7-RELEASE]
+# pRedis [v1.0.8-STABLE]
 
 ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white)
 ![GitHub](https://img.shields.io/github/languages/code-size/HyperSkys/pRedis?color=cyan&label=Size&labelColor=000000&logo=GitHub&style=for-the-badge)
@@ -14,6 +14,7 @@ To download and use pRedis go to the releases tab download the pRedis.jar file a
 ### API Introduction
 
 Below is an example of how you would create a packet that you would listen for.
+
 ```java
 import dev.hyperskys.predis.redis.packets.RedisPacket;
 import dev.hyperskys.predis.redis.packets.annotations.Packet;
@@ -29,23 +30,43 @@ public class BroadcastPacket extends RedisPacket {
 ```
 
 Below is an example of how you would send a broadcast packet.
+
 ```java
 import dev.hyperskys.predis.redis.RedisDB;
-import dev.hyperskys.predis.utils.PacketBuilder;
+import dev.hyperskys.predis.redis.utils.PacketBuilder;
 
 public class PacketSender {
-    
+
     private static final RedisDB redisDB = new RedisDB(
-            "localhost", 
-            6379, 
-            false, 
-            null, 
+            "localhost",
+            6379,
+            false,
+            null,
             5000
     );
-    
+
     public static void main(String[] args) {
         PRedis.init(PacketSender.class, redisDB);
         redisDB.write(new PacketBuilder("broadcast").addData("message", "Hello, World!").build());
+    }
+}
+```
+
+Below is an example of creating a database and a collection and adding a document to that collection.
+
+```java
+import dev.hyperskys.predis.mongodb.MongoDB;
+import dev.hyperskys.predis.mongodb.utils.DocumentBuilder;
+
+public class MongoTest {
+    
+    private static final MongoDB mongoDB = new MongoDB("root:password@localhost:27017");
+    
+    public static void main(String[] args) {
+        mongoDB.insertDocument("RandomTest", "testing", new DocumentBuilder("test", "test")
+                .add("another-test", 123)
+                .build()
+        );
     }
 }
 ```
@@ -67,7 +88,7 @@ For maven please add these to your repositories and dependencies.
  <dependency>
     <groupId>com.github.HyperSkys</groupId>
     <artifactId>pRedis</artifactId>
-    <version>1.0.7-RELEASE</version>
+    <version>1.0.8-STABLE</version>
 </dependency>
 ```
 
@@ -79,7 +100,7 @@ For gradle add this to your repositories and dependencies.
 maven { url 'https://jitpack.io' }
 ```
 ```
-implementation 'com.github.HyperSkys:Configurator:1.0.7-RELEASE'
+implementation 'com.github.HyperSkys:Configurator:1.0.8-STABLE'
 ```
 
 ### Thanks

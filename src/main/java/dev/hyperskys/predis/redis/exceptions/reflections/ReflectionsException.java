@@ -1,4 +1,4 @@
-package dev.hyperskys.predis.exceptions;
+package dev.hyperskys.predis.redis.exceptions.reflections;
 
 /**
  * An exception thrown when a problem occurs during reflection.

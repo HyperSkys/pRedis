@@ -1,4 +1,4 @@
-package dev.hyperskys.predis.exceptions;
+package dev.hyperskys.predis.redis.exceptions.reflections;
 
 /**
  * An exception thrown when an annotated class does not extend {@link dev.hyperskys.predis.redis.packets.RedisPacket}.

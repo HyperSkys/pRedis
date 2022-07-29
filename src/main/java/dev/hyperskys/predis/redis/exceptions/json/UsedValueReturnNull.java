@@ -1,4 +1,4 @@
-package dev.hyperskys.predis.exceptions;
+package dev.hyperskys.predis.redis.exceptions.json;
 
 /**
  * An exception thrown when a value that is gathered via the data object but returns null.

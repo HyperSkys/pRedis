@@ -6,12 +6,29 @@
 
     <groupId>dev.hyperskys</groupId>
     <artifactId>pRedis</artifactId>
-    <version>1.0.7-RELEASE</version>
+    <version>1.0.8-STABLE</version>
+    <description>A universal redis and mongodb library.</description>
+    <url>https://github.com/HyperSkys/pRedis</url>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
+
+    <developers>
+        <developer>
+            <name>HyperSkys</name>
+            <email>contact@hyperskys.dev</email>
+            <organizationUrl>https://hyperskys.dev/</organizationUrl>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>Eclipse Public License 2.0</name>
+            <url>https://www.eclipse.org/legal/epl-2.0/</url>
+        </license>
+    </licenses>
 
     <dependencies>
         <dependency>
@@ -29,6 +46,11 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>1.7.36</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongo-java-driver</artifactId>
+            <version>3.12.11</version>
         </dependency>
         <dependency>
             <groupId>org.reflections</groupId>

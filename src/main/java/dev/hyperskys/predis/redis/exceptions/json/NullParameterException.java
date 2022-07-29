@@ -1,4 +1,4 @@
-package dev.hyperskys.predis.exceptions;
+package dev.hyperskys.predis.redis.exceptions.json;
 
 /**
  * An exception thrown when a parameter that cannot null returns null.

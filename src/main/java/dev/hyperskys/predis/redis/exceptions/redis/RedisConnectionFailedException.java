@@ -1,4 +1,4 @@
-package dev.hyperskys.predis.exceptions;
+package dev.hyperskys.predis.redis.exceptions.redis;
 
 /**
  * An exception thrown when the redis client failed to connect.

@@ -1,4 +1,4 @@
-package dev.hyperskys.predis.exceptions;
+package dev.hyperskys.predis.redis.exceptions.redis;
 
 /**
  * Thrown when a message cannot be published to a channel.
