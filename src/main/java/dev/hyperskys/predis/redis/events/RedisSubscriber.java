@@ -2,6 +2,7 @@ package dev.hyperskys.predis.redis.events;
 
 import dev.hyperskys.predis.exceptions.AnnotatedClassException;
 import dev.hyperskys.predis.exceptions.PacketParseException;
+import dev.hyperskys.predis.exceptions.ReflectionsException;
 import dev.hyperskys.predis.exceptions.UsedValueReturnNull;
 import dev.hyperskys.predis.redis.RedisDB;
 import dev.hyperskys.predis.redis.packets.RedisPacket;
@@ -27,6 +28,8 @@ public class RedisSubscriber {
                 redisPackets.add((RedisPacket) clazz1.newInstance());
             } catch (InstantiationException | IllegalAccessException e) {
                 throw new AnnotatedClassException("The class " + clazz1.getName() + " is annotated with @Packet, but does not extend RedisPacket.");
+            } catch (Exception exception) {
+                throw new ReflectionsException("An error occurred while creating an instance of " + clazz1.getName() + ", stack trace: \n" + exception.getMessage());
             }
         }
 
@@ -53,7 +56,7 @@ public class RedisSubscriber {
             }
         };
 
-        new Thread(() -> redisDB.getListener().subscribe(jedisPubSub, "stream"), "JedisPubSub Thread").start();
+        new Thread(() -> redisDB.getListener().subscribe(jedisPubSub, "stream"), "Redis Subscriber Thread").start();
     }
 
     public void close() {

@@ -1,4 +1,4 @@
-# pRedis [v1.0.5-STABLE]
+# pRedis [v1.0.6-RELEASE]
 
 ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white)
 ![GitHub](https://img.shields.io/github/languages/code-size/HyperSkys/pRedis?color=cyan&label=Size&labelColor=000000&logo=GitHub&style=for-the-badge)
@@ -67,7 +67,7 @@ For maven please add these to your repositories and dependencies.
  <dependency>
     <groupId>com.github.HyperSkys</groupId>
     <artifactId>pRedis</artifactId>
-    <version>1.0.5-STABLE</version>
+    <version>1.0.6-RELEASE</version>
 </dependency>
 ```
 
@@ -79,8 +79,12 @@ For gradle add this to your repositories and dependencies.
 maven { url 'https://jitpack.io' }
 ```
 ```
-implementation 'com.github.HyperSkys:Configurator:1.0.5-STABLE'
+implementation 'com.github.HyperSkys:Configurator:1.0.6-RELEASE'
 ```
+
+### Thanks
+
+Thanks to [Badbird5907](https://www.github.com/Badbird5907) for some example code, and some ideas that were used in this project, it would have not been possible without his code and help.
 
 ### Discord
 

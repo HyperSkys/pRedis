@@ -1,6 +1,8 @@
 package dev.hyperskys.predis.redis;
 
 import dev.hyperskys.predis.PRedis;
+import dev.hyperskys.predis.exceptions.NullParameterException;
+import dev.hyperskys.predis.exceptions.PublishException;
 import dev.hyperskys.predis.exceptions.RedisConnectionFailedException;
 import dev.hyperskys.predis.redis.events.RedisSubscriber;
 import lombok.Getter;
@@ -30,11 +32,17 @@ public class RedisDB {
             }
         } catch (JedisConnectionException exception) {
             throw new RedisConnectionFailedException("Failed to connect to Redis server at " + hostAddress + ":" + hostPort + ", try checking your credentials.");
+        } catch (Exception exception) {
+            throw new NullParameterException("Failed to connect to Redis server at " + hostAddress + ":" + hostPort + ", one of the parameters is null.");
         }
     }
 
     public void write(JSONObject jsonObject) {
-        sender.publish("stream", jsonObject.toString());
+        try {
+            sender.publish("stream", jsonObject.toString());
+        } catch (Exception exception) {
+            throw new PublishException("Failed to publish to Redis server, the JSON object must be null, or the Redis server is not running.");
+        }
     }
 
     public void close() {
