@@ -6,7 +6,7 @@
 
     <groupId>dev.hyperskys</groupId>
     <artifactId>pRedis</artifactId>
-    <version>1.0.0-BETA</version>
+    <version>1.0.5-STABLE</version>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

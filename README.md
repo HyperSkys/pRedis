@@ -1,4 +1,4 @@
-# pRedis [v1.0.0-BETA]
+# pRedis [v1.0.5-STABLE]
 
 ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white)
 ![GitHub](https://img.shields.io/github/languages/code-size/HyperSkys/pRedis?color=cyan&label=Size&labelColor=000000&logo=GitHub&style=for-the-badge)
@@ -44,7 +44,7 @@ public class PacketSender {
     );
     
     public static void main(String[] args) {
-        PRedis.setMainClazz(PacketSender.class);
+        PRedis.init(PacketSender.class, redisDB);
         redisDB.write(new PacketBuilder("broadcast").addData("message", "Hello, World!").build());
     }
 }
@@ -67,7 +67,7 @@ For maven please add these to your repositories and dependencies.
  <dependency>
     <groupId>com.github.HyperSkys</groupId>
     <artifactId>pRedis</artifactId>
-    <version>1.0.0-BETA</version>
+    <version>1.0.5-STABLE</version>
 </dependency>
 ```
 
@@ -79,7 +79,7 @@ For gradle add this to your repositories and dependencies.
 maven { url 'https://jitpack.io' }
 ```
 ```
-implementation 'com.github.HyperSkys:Configurator:1.0.0-BETA'
+implementation 'com.github.HyperSkys:Configurator:1.0.5-STABLE'
 ```
 
 ### Discord
