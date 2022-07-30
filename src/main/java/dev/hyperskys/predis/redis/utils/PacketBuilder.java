@@ -32,11 +32,11 @@ public class PacketBuilder {
     /**
      * Adds a key-value pair to the packet.
      * @param key The key to add to the packet.
-     * @param number The number to add to the packet.
+     * @param value The number to add to the packet.
      * @return The packet builder.
      */
-    public PacketBuilder addData(String key, Number number) {
-        dataObject.put(key, number);
+    public PacketBuilder addData(String key, Number value) {
+        dataObject.put(key, value);
         return this;
     }
 
@@ -64,37 +64,37 @@ public class PacketBuilder {
 
     /**
      * Add a key-value pair to the json object in the packet.
-     * @param jsonObject The json object which will be added to.
+     * @param jsonObject The name of the json object.
      * @param key The key to add to the json object.
      * @param value The string to add to the json object.
      * @return The packet builder.
      */
-    public PacketBuilder addDataToObject(JSONObject jsonObject, String key, String value) {
-        jsonObject.put(key, value);
+    public PacketBuilder addDataToObject(String jsonObject, String key, String value) {
+        PacketBuilder.jsonObject.getJSONObject(jsonObject).put(key, value);
         return this;
     }
 
     /**
      * Add a key-value pair to the json object in the packet.
-     * @param jsonObject The json object which will be added to.
+     * @param jsonObject The name of the json object.
      * @param key The key to add to the json object.
      * @param value The number to add to the json object.
      * @return The packet builder.
      */
-    public PacketBuilder addDataToObject(JSONObject jsonObject, String key, Number value) {
-        jsonObject.put(key, value);
+    public PacketBuilder addDataToObject(String jsonObject, String key, Number value) {
+        PacketBuilder.jsonObject.getJSONObject(jsonObject).put(key, value);
         return this;
     }
 
     /**
      * Add a key-value pair to the json object in the packet.
-     * @param jsonObject The json object which will be added to.
+     * @param jsonObject The name of the json object.
      * @param key The key to add to the json object.
      * @param value The boolean to add to the json object.
      * @return The packet builder.
      */
-    public PacketBuilder addDataToObject(JSONObject jsonObject, String key, boolean value) {
-        jsonObject.put(key, value);
+    public PacketBuilder addDataToObject(String jsonObject, String key, boolean value) {
+        PacketBuilder.jsonObject.getJSONObject(jsonObject).put(key, value);
         return this;
     }
 

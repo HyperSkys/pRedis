@@ -10,6 +10,7 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.exceptions.JedisConnectionException;
 
 import javax.annotation.Nullable;
+import java.util.Arrays;
 
 /**
  * RedisDB is a wrapper class for Redis.
@@ -38,8 +39,10 @@ public class RedisDB {
             }
         } catch (JedisConnectionException exception) {
             throw new RedisConnectionFailedException("Failed to connect to Redis server at " + hostAddress + ":" + hostPort + ", try checking your credentials.");
-        } catch (Exception exception) {
+        } catch (NullPointerException exception) {
             throw new NullParameterException("Failed to connect to Redis server at " + hostAddress + ":" + hostPort + ", one of the parameters is null.");
+        } catch (Exception exception) {
+            throw new RuntimeException(Arrays.toString(exception.getStackTrace()));
         }
     }
 
@@ -52,6 +55,20 @@ public class RedisDB {
             senderClient.publish("stream", jsonObject.toString());
         } catch (Exception exception) {
             throw new PublishException("Failed to publish to Redis server, the JSON object must be null, or the Redis server is not running.");
+        }
+    }
+
+    /**
+     * Closes the connection to the database.
+     * @apiNote If you do not close the client it may cause memory leaks.
+     */
+    public boolean close() {
+        try {
+            senderClient.close();
+            listenerClient.close();
+            return true;
+        } catch (Exception ignored) {
+            return false;
         }
     }
 }

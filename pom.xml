@@ -6,8 +6,8 @@
 
     <groupId>dev.hyperskys</groupId>
     <artifactId>pRedis</artifactId>
-    <version>1.0.8-UNSTABLE</version>
-    <description>A universal redis and mongodb library.</description>
+    <version>1.0.8-BETA</version>
+    <description>A universal Redis and MongoDB library.</description>
     <url>https://github.com/HyperSkys/pRedis</url>
 
     <properties>

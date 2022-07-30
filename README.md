@@ -1,15 +1,11 @@
-# pRedis [v1.0.8-UNSTABLE]
+# pRedis [v1.0.8-BETA]
 
 ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white)
 ![GitHub](https://img.shields.io/github/languages/code-size/HyperSkys/pRedis?color=cyan&label=Size&labelColor=000000&logo=GitHub&style=for-the-badge)
 ![GitHub](https://img.shields.io/github/license/HyperSkys/pRedis?color=violet&logo=GitHub&labelColor=000000&style=for-the-badge)
 ![Discord](https://img.shields.io/discord/898154272636678196?color=5865F2&label=Discord&logo=Discord&labelColor=23272a&style=for-the-badge)
 
-**pRedis** is a universe Redis library for Java, which is open to the public.
-
-### Warning!
-
-This is not a stable build and should not be used for production nor should it be used for development, this has been released for people wanting to take the risk to use new features.
+**pRedis** is a universal Redis and MongoDB library.
 
 ### Download Instructions
 
@@ -82,17 +78,17 @@ There are two major different types of ways of integrating this API into your pr
 
 #### Maven
 For maven please add these to your repositories and dependencies.
-```
+```xml
 <repository>
   <id>jitpack.io</id>
   <url>https://jitpack.io</url>
 </repository>
 ``` 
-```
+```xml
  <dependency>
     <groupId>com.github.HyperSkys</groupId>
     <artifactId>pRedis</artifactId>
-    <version>1.0.8-UNSTABLE</version>
+    <version>1.0.8-BETA</version>
 </dependency>
 ```
 
@@ -100,11 +96,11 @@ For maven please add these to your repositories and dependencies.
 
 #### Gradle
 For gradle add this to your repositories and dependencies.
-```
+```kotlin
 maven { url 'https://jitpack.io' }
 ```
-```
-implementation 'com.github.HyperSkys:Configurator:1.0.8-UNSTABLE'
+```kotlin
+implementation 'com.github.HyperSkys:Configurator:1.0.8-BETA'
 ```
 
 ### Thanks

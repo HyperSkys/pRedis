@@ -14,6 +14,9 @@ import org.bson.Document;
  */
 public class MongoDB {
 
+    /**
+     * The MongoDB client.
+     */
     private static @Getter @Setter MongoClient mongoClient;
 
     /**
@@ -41,7 +44,7 @@ public class MongoDB {
 
     /**
      * Creates a new {@link MongoCollection} if it does not exist, otherwise returns the existing one.
-     * @param databaseName The name of the database.
+     * @param databaseName The name of the database, will create on if it doesn't exist.
      * @param collectionName The name of the collection.
      * @return The collection.
      */
@@ -51,8 +54,8 @@ public class MongoDB {
 
     /**
      * Inserts a new {@link Document} into the specified collection in the database.
-     * @param databaseName The name of the database.
-     * @param collectionName The name of the collection.
+     * @param databaseName The name of the database, will create on if it doesn't exist.
+     * @param collectionName The name of the collection, will create on if it doesn't exist.
      * @param document The document to be inserted.
      */
     public void insertDocument(String databaseName, String collectionName, Document document) {
@@ -61,8 +64,8 @@ public class MongoDB {
 
     /**
      * Updates a {@link Document} in the specified collection in the database.
-     * @param databaseName The name of the database.
-     * @param collectionName The name of the collection.
+     * @param databaseName The name of the database, will create on if it doesn't exist.
+     * @param collectionName The name of the collection, will create on if it doesn't exist.
      * @param filter The old document that will be replaced.
      * @param document The new document that will replace the old one.
      */
@@ -72,8 +75,8 @@ public class MongoDB {
 
     /**
      * Deletes a {@link Document} in the specified collection in the database.
-     * @param databaseName The name of the database.
-     * @param collectionName The name of the collection.
+     * @param databaseName The name of the database, will create on if it doesn't exist.
+     * @param collectionName The name of the collection, will create on if it doesn't exist.
      * @param filter The document that will be deleted.
      */
     public void removeDocument(String databaseName, String collectionName, Document filter) {
@@ -82,8 +85,14 @@ public class MongoDB {
 
     /**
      * Closes the connection to the database.
+     * @apiNote If you do not close the client it may cause memory leaks.
      */
-    public void close() {
-        getMongoClient().close();
+    public boolean close() {
+        try {
+            getMongoClient().close();
+            return true;
+        } catch (Exception ignored) {
+            return false;
+        }
     }
 }
