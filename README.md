@@ -20,7 +20,7 @@ import dev.hyperskys.predis.redis.packets.RedisPacket;
 import dev.hyperskys.predis.redis.packets.annotations.Packet;
 import org.json.JSONObject;
 
-@Packet(packetType = "broadcast")
+@Packet(name = "broadcast")
 public class BroadcastPacket extends RedisPacket {
     @Override
     public void onReceive(JSONObject jsonObject) {
