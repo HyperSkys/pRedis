@@ -4,6 +4,7 @@ import dev.hyperskys.predis.redis.exceptions.json.NullParameterException;
 import dev.hyperskys.predis.redis.exceptions.redis.PublishException;
 import dev.hyperskys.predis.redis.exceptions.redis.RedisConnectionFailedException;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 import org.json.JSONObject;
 import redis.clients.jedis.Jedis;
@@ -28,7 +29,7 @@ public class RedisDB {
      * @param hostPassword The host password of the Redis server, leave null if authentication false.
      * @param poolTimeout The pool timeout of the Redis server, advised timeout is 5000.
      */
-    public RedisDB(String hostAddress, int hostPort, boolean authentication, @Nullable String hostPassword, int poolTimeout) {
+    public RedisDB(@NonNull String hostAddress, int hostPort, boolean authentication, @Nullable String hostPassword, int poolTimeout) {
         try {
             setSenderClient(new Jedis(hostAddress, hostPort, poolTimeout));
             setListenerClient(new Jedis(hostAddress, hostPort, poolTimeout));
@@ -60,6 +61,7 @@ public class RedisDB {
 
     /**
      * Closes the connection to the database.
+     * @return If the connection was closed successfully.
      * @apiNote If you do not close the client it may cause memory leaks.
      */
     public boolean close() {

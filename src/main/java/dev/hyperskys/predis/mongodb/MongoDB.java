@@ -85,6 +85,7 @@ public class MongoDB {
 
     /**
      * Closes the connection to the database.
+     * @return If the connection was closed successfully.
      * @apiNote If you do not close the client it may cause memory leaks.
      */
     public boolean close() {

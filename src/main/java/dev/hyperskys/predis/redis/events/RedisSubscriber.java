@@ -1,5 +1,6 @@
 package dev.hyperskys.predis.redis.events;
 
+import dev.hyperskys.predis.PRedis;
 import dev.hyperskys.predis.redis.exceptions.reflections.AnnotatedClassException;
 import dev.hyperskys.predis.redis.exceptions.json.PacketParseException;
 import dev.hyperskys.predis.redis.exceptions.reflections.ReflectionsException;
@@ -25,21 +26,18 @@ public class RedisSubscriber {
      * The Jedis Publish & Subscriber instance.
      */
     private static JedisPubSub jedisPubSub;
-    private static Class<?> clazz;
     private static RedisDB redisDB;
 
     /**
      * This method is used to instantiate the variables.
-     * @param clazz The class that is used in the main method.
      * @param redisDB The RedisDB instance.
      */
-    public RedisSubscriber(Class<?> clazz, RedisDB redisDB) {
-        RedisSubscriber.clazz = clazz;
+    public RedisSubscriber(RedisDB redisDB) {
         RedisSubscriber.redisDB = redisDB;
     }
 
     public void init() {
-        Reflections reflections = new Reflections(clazz.getPackage().getName());
+        Reflections reflections = new Reflections(PRedis.mainClazz.getPackage().getName());
         ArrayList<RedisPacket> redisPackets = new ArrayList<>();
         for (Class<?> clazz1 : reflections.getTypesAnnotatedWith(Packet.class)) {
             try {
@@ -68,8 +66,6 @@ public class RedisSubscriber {
                     throw new PacketParseException("Failed to parse the packet to a json object: " + channel + ":" + message);
                 } catch (NullPointerException exception) {
                     throw new UsedValueReturnNull("A value in a packet on " + channel + ":" + message + " was used, but a value returned null.");
-                } catch (Exception exception) {
-                    exception.printStackTrace();
                 }
             }
         };

@@ -1,4 +1,4 @@
-# pRedis [v1.0.8-BETA]
+# pRedis [v1.0.8-BETA2]
 
 ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white)
 ![GitHub](https://img.shields.io/github/languages/code-size/HyperSkys/pRedis?color=cyan&label=Size&labelColor=000000&logo=GitHub&style=for-the-badge)
@@ -9,7 +9,8 @@
 
 ### Download Instructions
 
-To download and use pRedis go to the releases tab download the pRedis.jar file and add it to your artifacts or dependencies, via the JitPack repository.
+To download and use pRedis go to the releases tab download the 
+pRedis.jar file and add it to your artifacts or dependencies, via the JitPack repository.
 
 ### API Introduction
 
@@ -52,15 +53,17 @@ public class PacketSender {
 }
 ```
 
-Below is an example of creating a database and a collection and adding a document to that collection.
+Below is an example of creating a database and a collection and adding a document to that collection, then getting the document.
 
 ```java
 import dev.hyperskys.predis.mongodb.MongoDB;
 import dev.hyperskys.predis.mongodb.utils.DocumentBuilder;
+import dev.hyperskys.predis.mongodb.mongo.annotations.GetDocument;
 
 public class MongoTest {
     
     private static final MongoDB mongoDB = new MongoDB("root:password@localhost:27017");
+    private static final @GetDocument(database = "Example", collection = "Example1", key = "Test") Document document;
     
     public static void main(String[] args) {
         mongoDB.insertDocument("RandomTest", "testing", new DocumentBuilder("test", "test")
@@ -88,7 +91,7 @@ For maven please add these to your repositories and dependencies.
  <dependency>
     <groupId>com.github.HyperSkys</groupId>
     <artifactId>pRedis</artifactId>
-    <version>1.0.8-BETA</version>
+    <version>1.0.8-BETA2</version>
 </dependency>
 ```
 
@@ -100,7 +103,7 @@ For gradle add this to your repositories and dependencies.
 maven { url 'https://jitpack.io' }
 ```
 ```kotlin
-implementation 'com.github.HyperSkys:Configurator:1.0.8-BETA'
+implementation 'com.github.HyperSkys:Configurator:1.0.8-BETA2'
 ```
 
 ### Thanks
