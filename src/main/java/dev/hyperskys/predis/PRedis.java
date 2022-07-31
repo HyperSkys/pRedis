@@ -24,17 +24,9 @@ public class PRedis {
      */
     public static void init(@NonNull Class<?> clazz, @Nullable RedisDB redisDB, @Nullable MongoDB mongoDB) {
         if (!isRunning) {
-            if (redisDB != null) {
-                new RedisSubscriber(redisDB).init();
-            }
-
-            if (mongoDB != null) {
-                new AnnotationHandler(mongoDB).init();
-            }
-
-            if (mongoDB == null && redisDB == null) {
-                throw new IllegalArgumentException("You must provide at-least a RedisDB or MongoDB instance.");
-            }
+            if (redisDB != null) new RedisSubscriber(redisDB).init();
+            if (mongoDB != null) new AnnotationHandler(mongoDB).init();
+            if (mongoDB == null && redisDB == null) throw new IllegalArgumentException("You must provide at-least a RedisDB or MongoDB instance.");
 
             isRunning = true;
             mainClazz = clazz;
