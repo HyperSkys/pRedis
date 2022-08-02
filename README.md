@@ -1,4 +1,4 @@
-# pRedis [v1.0.8-BETA2]
+# pRedis [v1.0.8-RELEASE]
 
 ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white)
 ![GitHub](https://img.shields.io/github/languages/code-size/HyperSkys/pRedis?color=cyan&label=Size&labelColor=000000&logo=GitHub&style=for-the-badge)
@@ -53,17 +53,15 @@ public class PacketSender {
 }
 ```
 
-Below is an example of creating a database and a collection and adding a document to that collection, then getting the document.
+Below is an example of creating a database and a collection and adding a document to that collection.
 
 ```java
 import dev.hyperskys.predis.mongodb.MongoDB;
 import dev.hyperskys.predis.mongodb.utils.DocumentBuilder;
-import dev.hyperskys.predis.mongodb.mongo.annotations.GetDocument;
 
 public class MongoTest {
     
     private static final MongoDB mongoDB = new MongoDB("root:password@localhost:27017");
-    private static final @GetDocument(database = "Example", collection = "Example1", key = "Test") Document document;
     
     public static void main(String[] args) {
         mongoDB.insertDocument("RandomTest", "testing", new DocumentBuilder("test", "test")
@@ -78,7 +76,6 @@ public class MongoTest {
 
 There are two major different types of ways of integrating this API into your project, below will list the way of integrating while using Maven and Gradle.
 
-
 #### Maven
 For maven please add these to your repositories and dependencies.
 ```xml
@@ -91,7 +88,7 @@ For maven please add these to your repositories and dependencies.
  <dependency>
     <groupId>com.github.HyperSkys</groupId>
     <artifactId>pRedis</artifactId>
-    <version>1.0.8-BETA2</version>
+    <version>1.0.8-RELEASE</version>
 </dependency>
 ```
 
@@ -103,7 +100,7 @@ For gradle add this to your repositories and dependencies.
 maven { url 'https://jitpack.io' }
 ```
 ```kotlin
-implementation 'com.github.HyperSkys:Configurator:1.0.8-BETA2'
+implementation 'com.github.HyperSkys:Configurator:1.0.8-RELEASE'
 ```
 
 ### Thanks
