@@ -1,28 +1,24 @@
 package dev.hyperskys.predis;
 
-import dev.hyperskys.predis.redis.RedisDB;
-import dev.hyperskys.predis.redis.events.RedisSubscriber;
+import dev.hyperskys.predis.config.ConfigurationBuilder;
+import dev.hyperskys.predis.helper.PRedisHelper;
 import dev.hyperskys.predis.redis.exceptions.AlreadyRunningException;
-import lombok.NonNull;
 
 public class PRedis {
 
     /**
      * Prevent multiple instances of PRedis from being created.
      */
-    private static boolean isRunning = false;
+    public static boolean isRunning = false;
     public static Class<?> mainClazz = null;
 
     /**
      * This method is used to start the redis subscriber.
-     * @param clazz The class that is used in the main method.
-     * @param redisDB The RedisDB instance.
+     * @param configurationBuilder The configuration builder to use.
      */
-    public static void init(@NonNull Class<?> clazz, @NonNull RedisDB redisDB) {
-        if (!isRunning) {
-            new RedisSubscriber(redisDB).init();
-            isRunning = true;
-            mainClazz = clazz;
+    public static void init(ConfigurationBuilder configurationBuilder) {
+        if (!isRunning || !configurationBuilder.preventDuplicateInstances) {
+            new PRedisHelper(configurationBuilder.clazz, configurationBuilder.redisDB).init();
             return;
         }
 

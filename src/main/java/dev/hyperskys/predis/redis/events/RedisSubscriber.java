@@ -36,6 +36,9 @@ public class RedisSubscriber {
         RedisSubscriber.redisDB = redisDB;
     }
 
+    /**
+     * This method is used to set up the Jedis Publish & Subscriber instance.
+     */
     public void init() {
         Reflections reflections = new Reflections(PRedis.mainClazz.getPackage().getName());
         ArrayList<RedisPacket> redisPackets = new ArrayList<>();
@@ -70,6 +73,6 @@ public class RedisSubscriber {
             }
         };
 
-        new Thread(() -> redisDB.getListenerClient().subscribe(jedisPubSub, "stream"), "Main Redis Thread").start();
+        new Thread(() -> redisDB.getListenerClient().subscribe(jedisPubSub, "stream"), "pRedis Thread").start();
     }
 }

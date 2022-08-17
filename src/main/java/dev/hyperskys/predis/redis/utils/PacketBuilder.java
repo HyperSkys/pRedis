@@ -2,6 +2,9 @@ package dev.hyperskys.predis.redis.utils;
 
 import org.json.JSONObject;
 
+import java.util.Collection;
+import java.util.HashMap;
+
 /**
  * A utility class for building redis packets.
  */
@@ -48,6 +51,39 @@ public class PacketBuilder {
      */
     public PacketBuilder addData(String key, boolean value) {
         dataObject.put(key, value);
+        return this;
+    }
+
+    /**
+     * Adds a key-value pair to the packet.
+     * @param key The key to add to the packet.
+     * @param value The collection to add to the packet.
+     * @return The packet builder.
+     */
+    public PacketBuilder addObject(String key, Collection<?> value) {
+        jsonObject.put(key, value);
+        return this;
+    }
+
+    /**
+     * Adds a key-value pair to the packet.
+     * @param key The key to add to the packet.
+     * @param value The hashmap to add to the packet.
+     * @return The packet builder.
+     */
+    public PacketBuilder addObject(String key, HashMap<?, ?> value) {
+        jsonObject.put(key, value);
+        return this;
+    }
+
+    /**
+     * Adds a key-value pair to the packet.
+     * @param key The key to add to the packet.
+     * @param value The object to add to the packet.
+     * @return The packet builder.
+     */
+    public PacketBuilder addObject(String key, Object value) {
+        jsonObject.put(key, value);
         return this;
     }
 
