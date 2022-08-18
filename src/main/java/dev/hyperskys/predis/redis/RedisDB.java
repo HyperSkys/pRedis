@@ -59,6 +59,14 @@ public class RedisDB {
         }
     }
 
+    public void set(String key, String value) {
+        senderClient.set(key, value);
+    }
+
+    public String get(String key) {
+        return senderClient.get(key);
+    }
+
     /**
      * Closes the connection to the database.
      * @return If the connection was closed successfully.
