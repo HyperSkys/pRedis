@@ -44,7 +44,8 @@ public class RedisSubscriber {
         ArrayList<RedisPacket> redisPackets = new ArrayList<>();
         for (Class<?> clazz1 : reflections.getTypesAnnotatedWith(Packet.class)) {
             try {
-                redisPackets.add((RedisPacket) clazz1.newInstance());
+                if (clazz1.newInstance() instanceof RedisPacket)
+                    redisPackets.add((RedisPacket) clazz1.newInstance());
             } catch (InstantiationException | IllegalAccessException e) {
                 throw new AnnotatedClassException("The class " + clazz1.getName() + " is annotated with @Packet, but does not extend RedisPacket.");
             } catch (Exception exception) {
@@ -62,7 +63,12 @@ public class RedisSubscriber {
                     for (RedisPacket redisPacket : redisPackets) {
                         String typeOfPacket = redisPacket.getClass().getAnnotation(Packet.class).name();
                         if (jsonObject.getString("type") != null && Objects.equals(jsonObject.getString("type"), typeOfPacket)) {
-                            redisPacket.onReceive(jsonObject.getJSONObject("data"));
+                            if (redisPacket.getClass().getAnnotation(Packet.class).onlyData()) {
+                                redisPacket.onReceive(jsonObject.getJSONObject("data"));
+                                return;
+                            }
+
+                            redisPacket.onReceive(jsonObject);
                         }
                     }
                 } catch (JSONException exception) {

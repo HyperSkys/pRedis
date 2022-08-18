@@ -9,4 +9,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface Packet {
     String name() default "default_packet";
+    boolean onlyData() default true;
 }
