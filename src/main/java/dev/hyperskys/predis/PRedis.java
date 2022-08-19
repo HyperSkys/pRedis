@@ -17,8 +17,8 @@ public class PRedis {
      * @param configurationBuilder The configuration builder to use.
      */
     public static void init(ConfigurationBuilder configurationBuilder) {
-        if (!isRunning || !configurationBuilder.preventDuplicateInstances) {
-            new PRedisHelper(configurationBuilder.clazz, configurationBuilder.redisDB).init();
+        if (!isRunning || !configurationBuilder.isPreventDuplicateInstances()) {
+            new PRedisHelper(configurationBuilder.getClazz(), configurationBuilder.getRedisDB()).init();
             return;
         }
 

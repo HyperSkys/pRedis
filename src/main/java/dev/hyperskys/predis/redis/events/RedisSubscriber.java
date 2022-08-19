@@ -8,6 +8,7 @@ import dev.hyperskys.predis.redis.exceptions.json.UsedValueReturnNull;
 import dev.hyperskys.predis.redis.RedisDB;
 import dev.hyperskys.predis.redis.packets.RedisPacket;
 import dev.hyperskys.predis.redis.packets.annotations.Packet;
+import dev.hyperskys.predis.redis.packets.manager.AnnotationManager;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -80,5 +81,6 @@ public class RedisSubscriber {
         };
 
         new Thread(() -> redisDB.getListenerClient().subscribe(jedisPubSub, "stream"), "pRedis Thread").start();
+        AnnotationManager.setupAnnotationsManager(redisDB);
     }
 }
