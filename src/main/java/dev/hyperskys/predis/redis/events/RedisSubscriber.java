@@ -1,5 +1,6 @@
 package dev.hyperskys.predis.redis.events;
 
+import com.mongodb.internal.connection.SslHelper;
 import dev.hyperskys.predis.PRedis;
 import dev.hyperskys.predis.redis.exceptions.reflections.AnnotatedClassException;
 import dev.hyperskys.predis.redis.exceptions.json.PacketParseException;
@@ -41,12 +42,13 @@ public class RedisSubscriber {
      * This method is used to set up the Jedis Publish & Subscriber instance.
      */
     public void init() {
+        if (PRedis.mainClazz.getPackage() == null) throw new RuntimeException("You do not have a package setup, reflections cannot work.");
         Reflections reflections = new Reflections(PRedis.mainClazz.getPackage().getName());
         ArrayList<RedisPacket> redisPackets = new ArrayList<>();
+
         for (Class<?> clazz1 : reflections.getTypesAnnotatedWith(Packet.class)) {
             try {
-                if (clazz1.newInstance() instanceof RedisPacket)
-                    redisPackets.add((RedisPacket) clazz1.newInstance());
+                redisPackets.add((RedisPacket) clazz1.newInstance());
             } catch (InstantiationException | IllegalAccessException e) {
                 throw new AnnotatedClassException("The class " + clazz1.getName() + " is annotated with @Packet, but does not extend RedisPacket.");
             } catch (Exception exception) {

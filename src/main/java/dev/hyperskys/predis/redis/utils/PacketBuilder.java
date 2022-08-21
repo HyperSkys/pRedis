@@ -9,8 +9,9 @@ import java.util.HashMap;
  * A utility class for building redis packets.
  */
 public class PacketBuilder {
-    private static JSONObject jsonObject;
-    private static final JSONObject dataObject = new JSONObject();
+
+    private final JSONObject jsonObject;
+    private final JSONObject dataObject = new JSONObject();
 
     /**
      * Creates a new packet builder.
@@ -50,7 +51,7 @@ public class PacketBuilder {
      * @return The packet builder.
      */
     public PacketBuilder addData(String key, boolean value) {
-        dataObject.put(key, value);
+        this.dataObject.put(key, value);
         return this;
     }
 
@@ -60,8 +61,8 @@ public class PacketBuilder {
      * @param value The collection to add to the packet.
      * @return The packet builder.
      */
-    public PacketBuilder addObject(String key, Collection<?> value) {
-        jsonObject.put(key, value);
+    public PacketBuilder addData(String key, Collection<?> value) {
+        this.dataObject.put(key, value);
         return this;
     }
 
@@ -71,8 +72,8 @@ public class PacketBuilder {
      * @param value The hashmap to add to the packet.
      * @return The packet builder.
      */
-    public PacketBuilder addObject(String key, HashMap<?, ?> value) {
-        jsonObject.put(key, value);
+    public PacketBuilder addData(String key, HashMap<?, ?> value) {
+        this.dataObject.put(key, value);
         return this;
     }
 
@@ -82,8 +83,8 @@ public class PacketBuilder {
      * @param value The object to add to the packet.
      * @return The packet builder.
      */
-    public PacketBuilder addObject(String key, Object value) {
-        jsonObject.put(key, value);
+    public PacketBuilder addData(String key, Object value) {
+        this.dataObject.put(key, value);
         return this;
     }
 
@@ -94,7 +95,7 @@ public class PacketBuilder {
      * @return The packet builder.
      */
     public PacketBuilder addObject(String key, JSONObject value) {
-        jsonObject.put(key, value);
+        this.jsonObject.put(key, value);
         return this;
     }
 
@@ -106,7 +107,7 @@ public class PacketBuilder {
      * @return The packet builder.
      */
     public PacketBuilder addDataToObject(String jsonObject, String key, String value) {
-        PacketBuilder.jsonObject.getJSONObject(jsonObject).put(key, value);
+        this.jsonObject.getJSONObject(jsonObject).put(key, value);
         return this;
     }
 
@@ -118,7 +119,7 @@ public class PacketBuilder {
      * @return The packet builder.
      */
     public PacketBuilder addDataToObject(String jsonObject, String key, Number value) {
-        PacketBuilder.jsonObject.getJSONObject(jsonObject).put(key, value);
+        this.jsonObject.getJSONObject(jsonObject).put(key, value);
         return this;
     }
 
@@ -130,7 +131,43 @@ public class PacketBuilder {
      * @return The packet builder.
      */
     public PacketBuilder addDataToObject(String jsonObject, String key, boolean value) {
-        PacketBuilder.jsonObject.getJSONObject(jsonObject).put(key, value);
+        this.jsonObject.getJSONObject(jsonObject).put(key, value);
+        return this;
+    }
+
+    /**
+     * Add a key-value pair to the json object in the packet.
+     * @param jsonObject The name of the json object.
+     * @param key The key to add to the json object.
+     * @param value The collection to add to the json object.
+     * @return The packet builder.
+     */
+    public PacketBuilder addDataToObject(String jsonObject, String key, Collection<?> value) {
+        this.jsonObject.getJSONObject(jsonObject).put(key, value);
+        return this;
+    }
+
+    /**
+     * Add a key-value pair to the json object in the packet.
+     * @param jsonObject The name of the json object.
+     * @param key The key to add to the json object.
+     * @param value The hashmap to add to the json object.
+     * @return The packet builder.
+     */
+    public PacketBuilder addDataToObject(String jsonObject, String key, HashMap<?, ?> value) {
+        this.jsonObject.getJSONObject(jsonObject).put(key, value);
+        return this;
+    }
+
+    /**
+     * Add a key-value pair to the json object in the packet.
+     * @param jsonObject The name of the json object.
+     * @param key The key to add to the json object.
+     * @param value The object to add to the json object.
+     * @return The packet builder.
+     */
+    public PacketBuilder addDataToObject(String jsonObject, String key, Object value) {
+        this.jsonObject.getJSONObject(jsonObject).put(key, value);
         return this;
     }
 
@@ -139,7 +176,16 @@ public class PacketBuilder {
      * @return The packet that was built.
      */
     public JSONObject build() {
-        jsonObject.put("data", dataObject);
+        this.jsonObject.put("data", this.dataObject);
         return jsonObject;
+    }
+
+    /**
+     * Builds the packet and turns it into a string.
+     * @return The JSON Object built as a string value.
+     */
+    public String toString() {
+        this.jsonObject.put("data", this.dataObject);
+        return jsonObject.toString();
     }
 }

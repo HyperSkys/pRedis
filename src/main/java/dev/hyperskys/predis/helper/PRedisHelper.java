@@ -25,15 +25,13 @@ public class PRedisHelper {
      */
     @SneakyThrows
     public void init() {
-        PRedis.class.getDeclaredField("isRunning").set(null, true);
-        PRedis.class.getDeclaredField("mainClazz").set(null, mainClazz);
+        PRedis.isRunning = true;
+        PRedis.mainClazz = mainClazz;
         new RedisSubscriber(redis).init();
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            try {
-                PRedis.class.getDeclaredField("isRunning").set(null, false);
-                redis.close();
-            } catch (IllegalAccessException | NoSuchFieldException ignored) {}
+            PRedis.isRunning = false;
+            redis.close();
         }));
     }
 }
